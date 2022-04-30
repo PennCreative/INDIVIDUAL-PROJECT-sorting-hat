@@ -1,3 +1,36 @@
+*{
+  font-family: 'EB Garamond', serif;
+}
 body{
-  background: yellow;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.welcome{
+  padding: 1em;
+  display: flex;
+  flex-flow: column nowrap;
+  text-align: center;
+}
+.welcome h3{
+  font-weight: 400;
+  font-size: 64px;
+}
+.welcome h4{
+  font-weight: 400;
+  font-size: 40px;
+  
+}
+.welcome h1{
+  font-weight: 800;
+  font-size: 80px;
+}
+.filter{
+  display: flex;
+  width: 100%;
+}
+.buttons{
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  padding: .5rem;
 }
