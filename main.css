@@ -1,3 +1,10 @@
+root{
+  --gRed: #92140C;
+  --vBlack: #353238;
+  --sGreen: #3BB273;
+  --rBlue: #247BA0;
+  --hYellow: #FFC43D;
+}
 *{
   font-family: 'EB Garamond', serif;
 }
@@ -33,4 +40,46 @@ body{
   display: flex;
   justify-content: space-evenly;
   padding: .5rem;
+}
+.houseCategory{
+  width: 100vw;
+  height: 50vh;
+  display: flex;
+  justify-content: space-evenly;
+  padding: .5rem;
+}
+.house{
+ width: 100%;
+ height: 100%;
+ margin: 0 .5rem;
+ padding: .5rem;
+ display: flex;
+ flex-flow: column nowrap;
+ text-align: center;
+ border: 5px double black;
+}
+.gHouse{
+  background: #FCDCD9;
+  color: #92140C;
+  border-color: #92140C;
+}
+.sHouse{
+  background: #E0F5EA;
+  color: #3BB273;
+  border-color: #3BB273;
+}
+.rHouse{
+  background: #DEF0F7;
+  color: #247BA0;
+  border-color: #247BA0;
+}
+.hHouse{
+  background: #FFF3D6;
+  color: #FFC43D;
+  border-color: #FFC43D;
+}
+.vHouse{
+  background: #EBE9EC;
+  color: #353238;
+  border-color: #353238;
 }

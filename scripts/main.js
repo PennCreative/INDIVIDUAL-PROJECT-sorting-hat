@@ -49,62 +49,42 @@ const welcome = () => {
   let domString = `<h3>WELCOME</h3>
   <h4>to the amazing world of</h4>
   <h1>HOGWORX!</h1>
-  <p>Created by Jkjk Rollin</p>
 <form>
-  <form class="row row-cols-lg-auto g-3 align-items-center">
-  <div class="col-12">
-    <label class="visually-hidden" for="inlineFormInputGroupUsername">Username</label>
-    <div class="input-group">
-      <div class="input-group-text">@</div>
-      <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Username">
-    </div>
-  </div>
-
-  <div class="col-12">
-    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-    <select class="form-select" id="inlineFormSelectPref">
-      <option selected>Choose...</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-  </div>
-
-  <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="inlineFormCheck">
-      <label class="form-check-label" for="inlineFormCheck">
-        Remember me
-      </label>
-    </div>
-  </div>
-
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-</form>
+<div class="input-group">
+<span class="input-group-text">First Name</span>
+<input type="text" aria-label="First name" class="form-control">
+<span class="input-group-text">Last Name</span>
+<input type="text" aria-label="Last name" class="form-control">
+<select class="form-select" id="inputGroupSelect01">
+    <option selected>Your choice will be considered</option>
+    <option value="1">Gryffindor</option>
+    <option value="2">Slytherin</option>
+    <option value="3">Hufflepuff</option>
+    <option value="4">Ravenclaw</option>
+  </select>
+<button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-hat-wizard"></i></button>
+</div>
 </form>
   `;
   renderToDom('#welcomeMsg', domString);
 }
 
-const peopleOnDom = (array) => {
-  let domString = "";
-
-  for (const people of array) {
-    domString += `<h1>${people.studentName} of ${people.houseName}</h1>`
+const houseCards = (array) => {
+  let domString = ''; 
+  
+  for (const people in array) {
+    domString += ``;
   }
-  renderToDom('#hogwarts', domString);
-}
+};
 
 const filterBtn = () => {
   let domString = `
   <div class="buttons">
-  <button class="btn btn-outline-dark btn-lg buttonRow" id="gryffindor">Gryffindor</button>
-  <button class="btn btn-outline-dark btn-lg buttonRow" id="slytherin">Slytherin</button>
-  <button class="btn btn-outline-dark btn-lg buttonRow" id="hufflepuff">Hufflepuff</button>
-  <button class="btn btn-outline-dark btn-lg buttonRow" id="ravenclaw">Ravenclaw</button>
-  <button class="btn btn-outline-dark btn-lg buttonRow" id="army">Voldemort's Army</button>
+  <button class="btn btn-outline-danger btn-lg buttonRow" id="gryffindor">Gryffindor</button>
+  <button class="btn btn-outline-success btn-lg buttonRow" id="slytherin">Slytherin</button>
+  <button class="btn btn-outline-warning btn-lg buttonRow" id="hufflepuff">Hufflepuff</button>
+  <button class="btn btn-outline-primary btn-lg buttonRow" id="ravenclaw">Ravenclaw</button>
+  <button class="btn btn-outline-secondary btn-lg buttonRow" id="army">Voldemort's Army</button>
   <button class="btn btn-outline-dark btn-lg buttonRow" id="clear">Clear</button>
 </div>
   `;
