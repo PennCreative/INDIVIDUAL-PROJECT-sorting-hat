@@ -1,43 +1,49 @@
 const students = [
-  {studentId: 1,
-  studentName: 'Harry',
-  houseName: 'Gryffindor',
-  rank: 'student',
-  enlisted: false,
-  defeated: false,
-},
-{ 
-  studentId: 2,
-  studentName: 'Luna',
-  houseName: 'Ravenclaw',
-  rank: 'student',
-  enlisted: false,
-  defeated: false,
-},
-{ 
-  studentId: 3,
-  studentName: 'Newt',
-  houseName: 'Hufflepuff',
-  rank: 'student',
-  enlisted: false,
-  defeated: false,
-},
-{ 
-  studentId: 4,
-  studentName: 'Draco',
-  houseName: 'Slytherin',
-  rank: 'student',
-  enlisted: false,
-  defeated: false,
-},
-{ 
-  studentId: 5,
-  studentName: 'Voldemort',
-  houseName: 'Army',
-  rank: 'leader',
-  enlisted: false,
-  defeated: false,
-}
+  {
+    studentId: 1,
+    studentFirstName: "Harry",
+    studentLastName: "Potter",
+    houseName: "Gryffindor",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 2,
+    studentFirstName: "Luna",
+    studentLastName: "Lovegood",
+    houseName: "Ravenclaw",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 3,
+    studentFirstName: "Newt",
+    studentLastName: "Scamander",
+    houseName: "Hufflepuff",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 4,
+    studentFirstName: "Draco",
+    studentLastName: "Malfoy",
+    houseName: "Slytherin",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 5,
+    studentFirstName: "Lord",
+    studentLastName: "Voldemort",
+    houseName: "DeathEaters",
+    rank: "leader",
+    enlisted: false,
+    defeated: false,
+  },
 ];
 
 const renderToDom = (divId, textToRender) => {
@@ -66,16 +72,9 @@ const welcome = () => {
 </div>
 </form>
   `;
-  renderToDom('#welcomeMsg', domString);
-}
-
-const houseCards = (array) => {
-  let domString = ''; 
-  
-  for (const people in array) {
-    domString += ``;
-  }
+  renderToDom("#welcomeMsg", domString);
 };
+
 
 const filterBtn = () => {
   let domString = `
@@ -88,47 +87,119 @@ const filterBtn = () => {
   <button class="btn btn-outline-dark btn-lg buttonRow" id="clear">Clear</button>
 </div>
   `;
-  renderToDom('#filterGroup', domString);
+  renderToDom("#filterGroup", domString);
 };
 
-const eventListeners = () => {
+const renderHouses = () => {
+  let domString = "";
+  const houseNames = [
+    {
+      house: "Gryffindor",
+      sigil: "shield-cat",
+    },
+    {
+      house: "Slytherin",
+      sigil: "dragon",
+    },
+    {
+      house: "Hufflepuff",
+      sigil: "otter",
+    },
+    {
+      house: "Ravenclaw",
+      sigil: "crow",
+    },
+    {
+      house: "DeathEaters",
+      sigil: "skull",
+    },
+  ];
 
-  document.querySelector('#filterGroup').addEventListener('click', (e) => {
-    if  (e.target.id === 'clear'){ 
-      peopleOnDom(students)
+  for (const names of houseNames) {
+    domString += `
+    <div class="${names.house.charAt(0).toLowerCase()}House house">
+     <div class = 'bannerHead'> 
+     <h1>
+        <i class="fa-solid fa-${names.sigil}"></i>
+        <p id='${names.house}'>${names.house}</p>
+    </h1>
+     </div>
+      <div id='house${names.house}' class='bannerBody'>
+          
+      </div>
+    </div>
+    `;
+  }
+  renderToDom("#houses", domString);
+};
+
+const idCard = () => {
+let domString = '';
+for (const sorted of students) {
+
+  if (sorted.houseName === document.querySelector('#Gryffindor').innerHTML) {
+    document.querySelector('#houseGryffindor').innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
+    console.log(sorted.houseName);
+  } 
+else if (sorted.houseName === document.querySelector('#Slytherin').innerHTML) {
+  document.querySelector('#houseSlytherin').innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
+} 
+else if (sorted.houseName === document.querySelector('#Hufflepuff').innerHTML) {
+  document.querySelector('#houseHufflepuff').innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
+} 
+else if (sorted.houseName === document.querySelector('#Ravenclaw').innerHTML) {
+  document.querySelector('#houseRavenclaw').innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
+} 
+else if(sorted.houseName === document.querySelector('#DeathEaters').innerHTML) {
+  document.querySelector('#houseDeathEaters').innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
+} else {
+  console.log('something went wrong');
+}
+}
+
+renderToDom(".bannerBody", domString);
+}
+
+const eventListeners = () => {
+  document.querySelector("#filterGroup").addEventListener("click", (e) => {
+    if (e.target.id === "clear") {
+      peopleOnDom(students);
     } else if (e.target.id) {
-      const house = students.filter((taco) => taco.houseName.toLowerCase() === e.target.id)
+      const house = students.filter(
+        (taco) => taco.houseName.toLowerCase() === e.target.id
+      );
       peopleOnDom(house);
     } else {
-        peopleOnDom(students)
-      }
+      peopleOnDom(students);
+    }
   });
 
-  const addOne = document.querySelector('#addStudent');
-  
-  addOne.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const houses = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'];
+  // const addOne = document.querySelector("#addStudent");
 
-    const newStudent = {
-      studentId: students.length++,
-      studentName: document.querySelector('#name').value,
-      houseName: houses[Math.floor(Math.random * houses.length)],
-      rank: 'student',
-      enlisted: false,
-      defeated: false,
-    };
-    console.log(newStudent)
-    students.unshift(newStudent);
+  // addOne.addEventListener('submit', (e) => {
+  //   e.preventDefault();
+  //   const houses = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'];
 
-    peopleOnDom(students);
-  }); 
-} 
+  //   const newStudent = {
+  //     studentId: students.length++,
+  //     studentName: document.querySelector('#name').value,
+  //     houseName: houses[Math.floor(Math.random * houses.length)],
+  //     rank: 'student',
+  //     enlisted: false,
+  //     defeated: false,
+  //   };
+  //   console.log(newStudent)
+  //   students.unshift(newStudent);
+
+  //   peopleOnDom(students);
+  // });
+};
 const turnOn = () => {
-  welcome()
-  filterBtn()
-  eventListeners()
-  peopleOnDom(students)
+  welcome();
+  filterBtn();
+  renderHouses();
+  idCard();
+  eventListeners();
 };
 
 turnOn();

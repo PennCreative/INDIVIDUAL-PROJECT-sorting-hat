@@ -78,8 +78,23 @@ body{
   color: #FFC43D;
   border-color: #FFC43D;
 }
-.vHouse{
+.dHouse{
   background: #EBE9EC;
   color: #353238;
   border-color: #353238;
+}
+.bannerHead{
+  height: 30%;
+  width: 100%;
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: center;
+}
+.title{
+  font-size: 90%;
+}
+.bannerBody{
+  height: 100%;
+  width: 100%;
+  padding-top: .5rem;
 }
