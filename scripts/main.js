@@ -53,15 +53,6 @@ let students = [
     enlisted: true,
     defeated: false,
   },
-  {
-    studentId: 7,
-    studentFirstName: "He Who",
-    studentLastName: "Must Not Be Named",
-    houseName: "DeathEaters",
-    rank: "leader",
-    enlisted: true,
-    defeated: false,
-  },
 ];
 
 const renderToDom = (divId, textToRender) => {
@@ -139,81 +130,79 @@ const renderHouses = () => {
 
   for (const names of houseNames) {
     domString += `
-    <div id="" class="${names.house.charAt(0).toLowerCase()}House house">
+    <div id="${names.house}" class="${names.house.charAt(0).toLowerCase()}House house">
      <div class = 'bannerHead'> 
      <h1>
         <i class="fa-solid fa-${names.sigil}"></i>
-        <p id='${names.house}'>${names.house}</p>
+        <p id='p${names.house}'>${names.house}</p>
     </h1>
      </div>
       <div id='house${names.house}' class='bannerBody'>
-          <div id="rosterTable"></div>
+          <div class="classTable">
+
+          </div>
       </div>
     </div>
     `;
   }
   renderToDom("#houses", domString);
 };
-
+//styling for the actual students
 const idCard = () => {
   let domString = "";
-  for (const studentBody of students) {
+  for (const student of students) {
     domString += `
-      
+    <div class="studentIdCard">
+  <div class="row row-cols-auto">
+    <div class="col classIcon">${student.houseName.charAt(0)}</div>
+    <div class="col">${student.studentFirstName} ${student.studentLastName}</div>
+  </div>
+</div>
     `;
   }
+  renderToDom('.bannerBody', domString);
 };
-
-const roster = () => {
-  let domString = "";
-  
-  for (const sorted of students) {
-    if (sorted.houseName === document.querySelector("#Gryffindor").innerHTML) {
-      document.querySelector("#houseGryffindor").innerHTML += `
-    ${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
-    } else if (
-      sorted.houseName === document.querySelector("#Slytherin").innerHTML
-    ) {
-      document.querySelector(
-        "#houseSlytherin"
-      ).innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
-    } else if (
-      sorted.houseName === document.querySelector("#Hufflepuff").innerHTML
-    ) {
-      document.querySelector(
-        "#houseHufflepuff"
-      ).innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
-    } else if (
-      sorted.houseName === document.querySelector("#Ravenclaw").innerHTML
-    ) {
-      document.querySelector(
-        "#houseRavenclaw"
-      ).innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
-    } else if (
-      sorted.houseName === document.querySelector("#DeathEaters").innerHTML
-    ) {
-      document.querySelector(
-        "#houseDeathEaters"
-      ).innerHTML += `${sorted.studentFirstName} ${sorted.studentLastName} <br>`;
-    } else {
-      console.log("something went wrong");
+const sortToGryff = () => {
+  let domString = '';
+  for (const gryffStudents of students) {
+    if (gryffStudents.houseName === 'Gryffindor') {
+      domString += `
+    <div class="studentIdCard">
+  <div class="row row-cols-auto">
+    <div class="col classIcon">${gryffStudents.houseName.charAt(0)}</div>
+    <div class="col">${gryffStudents.studentFirstName} ${gryffStudents.studentLastName}</div>
+  </div>
+</div>
+    `;
     }
   }
+  renderToDom('#houseGryffindor', domString)
+}
+const renderToHouse = () => {
+  let domString = "";
 
-  renderToDom("#rosterTable", domString);
+  
+
+  
+
+  renderToDom("#houseSlytherin", domString);
 };
 
 const eventListeners = () => {
   
   document.querySelector("#filter").addEventListener("click", (e) => {
+
     if (e.target.id === "clear") {
-      roster(students);
+      sortToGryff(students);
+      console.log(students)
     } else if (e.target.id) {
       const topic = students.filter(
-        (taco) => taco.houseName.toLowerCase() === e.target.id     
+        (taco) => taco.houseName === e.target.id.innerHTML     
       );
-      console.log(e.target.id);
-      roster(topic);
+      console.log(topic)
+      sortToGryff(topic);
+    } else {
+      console.log('something went wrong');
     }
   });
 
@@ -242,8 +231,9 @@ const eventListeners = () => {
     console.log(newStudent)
     console.log(students)
     students.push(newStudent);
-  
-    roster(newStudent);
+
+    idCard(newStudent);
+    sortToGryff(newStudent);
     
     addOne.reset();
   });
@@ -253,7 +243,9 @@ const turnOn = () => {
   welcome();
   filterBtn();
   renderHouses();
-  roster();
+  renderToHouse(students);
+  idCard()
+  sortToGryff()
   eventListeners();
 };
 

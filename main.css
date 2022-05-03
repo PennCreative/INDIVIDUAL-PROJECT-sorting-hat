@@ -89,6 +89,7 @@ body{
   display: flex;
   flex-flow: nowrap;
   justify-content: center;
+  border-bottom: 5px double;
 }
 .title{
   font-size: 90%;
@@ -97,4 +98,11 @@ body{
   height: 100%;
   width: 100%;
   padding-top: .5rem;
+  overflow: scroll;
+}
+.studentIdCard{
+width: 100%;
+}
+.classIcon{
+  color: darkslategray;
 }
