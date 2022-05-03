@@ -1,4 +1,4 @@
-const students = [
+let students = [
   {
     studentId: 1,
     studentFirstName: "Harry",
@@ -217,6 +217,8 @@ const eventListeners = () => {
   const addOne = document.querySelector("#getSorted");
   addOne.addEventListener('submit', (e) => {
     e.preventDefault();
+    const studentInput = document.querySelector('#inputGroupSelect01').value;
+    console.log(studentInput);
     const sortingTo = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'];
     const newStudent = {
       studentId: students.length++,
@@ -227,9 +229,12 @@ const eventListeners = () => {
       enlisted: false,
       defeated: false,
     };
+    console.log(newStudent)
     students.push(newStudent);
+    console.log(students);
+    roster(students);
     
-    
+    addOne.reset();
   });
 };
 const turnOn = () => {
