@@ -76,15 +76,15 @@ const welcome = () => {
 <form id="getSorted">
 <div class="input-group">
 <span class="input-group-text">First Name</span>
-<input type="text" aria-label="First name" class="firstName form-control">
+<input type="text" aria-label="First name" class="firstName form-control" required>
 <span class="input-group-text">Last Name</span>
-<input type="text" aria-label="Last name" class="lastName form-control">
-<select class="form-select" id="inputGroupSelect01">
+<input type="text" aria-label="Last name" class="lastName form-control" required>
+<select class="form-select" id="inputGroupSelect01" required>
     <option selected>Your choice will be considered</option>
-    <option value="1">Gryffindor</option>
-    <option value="2">Slytherin</option>
-    <option value="3">Hufflepuff</option>
-    <option value="4">Ravenclaw</option>
+    <option value="Gryffindor">Gryffindor</option>
+    <option value="Slytherin">Slytherin</option>
+    <option value="Hufflepuff">Hufflepuff</option>
+    <option value="Ravenclaw">Ravenclaw</option>
   </select>
 <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-hat-wizard"></i></button>
 </div>
@@ -95,7 +95,7 @@ const welcome = () => {
 
 const filterBtn = () => {
   let domString = `
-  <div class="buttons">
+  <div id="filter" class="buttons">
   <button type="button" class="btn btn-outline-danger btn-lg buttonRow" id="gryffindor">Gryffindor</button>
   <button type="button" class="btn btn-outline-success btn-lg buttonRow" id="slytherin">Slytherin</button>
   <button type="button" class="btn btn-outline-warning btn-lg buttonRow" id="hufflepuff">Hufflepuff</button>
@@ -139,7 +139,7 @@ const renderHouses = () => {
 
   for (const names of houseNames) {
     domString += `
-    <div class="${names.house.charAt(0).toLowerCase()}House house">
+    <div id="" class="${names.house.charAt(0).toLowerCase()}House house">
      <div class = 'bannerHead'> 
      <h1>
         <i class="fa-solid fa-${names.sigil}"></i>
@@ -166,6 +166,7 @@ const idCard = () => {
 
 const roster = () => {
   let domString = "";
+  
   for (const sorted of students) {
     if (sorted.houseName === document.querySelector("#Gryffindor").innerHTML) {
       document.querySelector("#houseGryffindor").innerHTML += `
@@ -203,25 +204,34 @@ const roster = () => {
 };
 
 const eventListeners = () => {
-  document.querySelector("#filterGroup").addEventListener("click", (e) => {
+  
+  document.querySelector("#filter").addEventListener("click", (e) => {
     if (e.target.id === "clear") {
-      peopleOnDom(students);
+      roster(students);
     } else if (e.target.id) {
-      const house = students.filter(
-        (taco) => taco.houseName.toLowerCase() === e.target.id
+      const topic = students.filter(
+        (taco) => taco.houseName.toLowerCase() === e.target.id     
       );
-      peopleOnDom(house);
+      console.log(e.target.id);
+      roster(topic);
     }
   });
 
   const addOne = document.querySelector("#getSorted");
   addOne.addEventListener('submit', (e) => {
     e.preventDefault();
+
     const studentInput = document.querySelector('#inputGroupSelect01').value;
-    console.log(studentInput);
-    const sortingTo = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'];
+
+    let sortingTo = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'];
+    if (sortingTo.includes(studentInput)) {
+      sortingTo.push(studentInput)
+    } else {
+      console.log('You appear to have no preference...')
+    }
+
     const newStudent = {
-      studentId: students.length++,
+      studentId: students.length + 1,
       studentFirstName: document.querySelector('.firstName').value,
       studentLastName: document.querySelector('.lastName').value,
       houseName: sortingTo[Math.floor(Math.random() * sortingTo.length)],
@@ -230,12 +240,14 @@ const eventListeners = () => {
       defeated: false,
     };
     console.log(newStudent)
+    console.log(students)
     students.push(newStudent);
-    console.log(students);
-    roster(students);
+  
+    roster(newStudent);
     
     addOne.reset();
   });
+
 };
 const turnOn = () => {
   welcome();
