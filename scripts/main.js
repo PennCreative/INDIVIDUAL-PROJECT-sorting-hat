@@ -55,6 +55,34 @@ let students = [
   },
 ];
 
+const houseNames = [
+  {
+    house: "Gryffindor",
+    sigil: "cat",
+    table: "danger",
+  },
+  {
+    house: "Slytherin",
+    sigil: "dragon",
+    table: "success",
+  },
+  {
+    house: "Hufflepuff",
+    sigil: "otter",
+    table: "warning",
+  },
+  {
+    house: "Ravenclaw",
+    sigil: "crow",
+    table: "primary",
+  },
+  {
+    house: "DeathEaters",
+    sigil: "skull",
+    table: "secondary",
+  },
+];
+
 const renderToDom = (divId, textToRender) => {
   const selectedElement = document.querySelector(divId);
   selectedElement.innerHTML = textToRender;
@@ -100,34 +128,7 @@ const filterBtn = () => {
 
 const renderHouses = () => {
   let domString = "";
-  const houseNames = [
-    {
-      house: "Gryffindor",
-      sigil: "cat",
-      table: "danger",
-    },
-    {
-      house: "Slytherin",
-      sigil: "dragon",
-      table: "success",
-    },
-    {
-      house: "Hufflepuff",
-      sigil: "otter",
-      table: "warning",
-    },
-    {
-      house: "Ravenclaw",
-      sigil: "crow",
-      table: "primary",
-    },
-    {
-      house: "DeathEaters",
-      sigil: "skull",
-      table: "secondary",
-    },
-  ];
-
+  
   for (const names of houseNames) {
     domString += `
     <div id="${names.house}" class="${names.house.charAt(0).toLowerCase()}House house">
@@ -147,60 +148,45 @@ const renderHouses = () => {
   }
   renderToDom("#houses", domString);
 };
-//styling for the actual students
-const idCard = () => {
-  let domString = "";
-  for (const student of students) {
+
+const sortToAny = (studentFilter, house) => {
+  let domString = '';
+  
+  for (const character of studentFilter) {
     domString += `
     <div class="studentIdCard">
   <div class="row row-cols-auto">
-    <div class="col classIcon">${student.houseName.charAt(0)}</div>
-    <div class="col">${student.studentFirstName} ${student.studentLastName}</div>
+    <div class="col classIcon">${character.houseName.charAt(0)}</div>
+    <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
   </div>
 </div>
     `;
   }
-  renderToDom('.bannerBody', domString);
+
+  renderToDom(`#house${house.house}`, domString);
 };
-const sortToGryff = () => {
-  let domString = '';
-  for (const gryffStudents of students) {
-    if (gryffStudents.houseName === 'Gryffindor') {
-      domString += `
-    <div class="studentIdCard">
-  <div class="row row-cols-auto">
-    <div class="col classIcon">${gryffStudents.houseName.charAt(0)}</div>
-    <div class="col">${gryffStudents.studentFirstName} ${gryffStudents.studentLastName}</div>
-  </div>
-</div>
-    `;
-    }
+
+const idCard = () => {
+  for (const house of houseNames) {
+    console.log(house);
+    let studentFilter = students.filter(eachStudent => eachStudent.houseName === house.house);
+    console.log(studentFilter);
+
+    sortToAny(studentFilter, house);
+  };
   }
-  renderToDom('#houseGryffindor', domString)
-}
-const renderToHouse = () => {
-  let domString = "";
-
-  
-
-  
-
-  renderToDom("#houseSlytherin", domString);
-};
 
 const eventListeners = () => {
   
   document.querySelector("#filter").addEventListener("click", (e) => {
 
     if (e.target.id === "clear") {
-      sortToGryff(students);
+      idCard(students);
       console.log(students)
     } else if (e.target.id) {
-      const topic = students.filter(
-        (taco) => taco.houseName === e.target.id.innerHTML     
+      const topic = students.filter((taco) => taco.houseName.toLowerCase() === e.target.id.innerHTML     
       );
-      console.log(topic)
-      sortToGryff(topic);
+      idCard(topic);
     } else {
       console.log('something went wrong');
     }
@@ -233,7 +219,7 @@ const eventListeners = () => {
     students.push(newStudent);
 
     idCard(newStudent);
-    sortToGryff(newStudent);
+
     
     addOne.reset();
   });
@@ -243,9 +229,7 @@ const turnOn = () => {
   welcome();
   filterBtn();
   renderHouses();
-  renderToHouse(students);
   idCard()
-  sortToGryff()
   eventListeners();
 };
 
