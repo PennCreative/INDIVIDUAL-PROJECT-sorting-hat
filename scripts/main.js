@@ -115,12 +115,12 @@ const welcome = () => {
 const filterBtn = () => {
   let domString = `
   <div id="filter" class="buttons">
-  <button type="button" class="btn btn-outline-danger btn-lg buttonRow" id="gryffindor">Gryffindor</button>
-  <button type="button" class="btn btn-outline-success btn-lg buttonRow" id="slytherin">Slytherin</button>
-  <button type="button" class="btn btn-outline-warning btn-lg buttonRow" id="hufflepuff">Hufflepuff</button>
-  <button type="button" class="btn btn-outline-primary btn-lg buttonRow" id="ravenclaw">Ravenclaw</button>
-  <button type="button" class="btn btn-outline-secondary btn-lg buttonRow" id="army">Voldemort's Army</button>
-  <button type="button" class="btn btn-outline-dark btn-lg buttonRow" id="clear">Clear</button>
+  <button type="button" class="btn btn-outline-danger btn-lg buttonRow" id="gryffindorBtn">Gryffindor</button>
+  <button type="button" class="btn btn-outline-success btn-lg buttonRow" id="slytherinBtn">Slytherin</button>
+  <button type="button" class="btn btn-outline-warning btn-lg buttonRow" id="hufflepuffBtn">Hufflepuff</button>
+  <button type="button" class="btn btn-outline-primary btn-lg buttonRow" id="ravenclawBtn">Ravenclaw</button>
+  <button type="button" class="btn btn-outline-secondary btn-lg buttonRow" id="armyBtn">Voldemort's Army</button>
+  <button type="button" class="btn btn-outline-dark btn-lg buttonRow" id="allBtn">All</button>
 </div>
   `;
   renderToDom("#filterGroup", domString);
@@ -128,10 +128,11 @@ const filterBtn = () => {
 
 const renderHouses = () => {
   let domString = "";
-  
   for (const names of houseNames) {
     domString += `
-    <div id="${names.house}" class="${names.house.charAt(0).toLowerCase()}House house">
+    <div id="${names.house}" class="${names.house
+      .charAt(0)
+      .toLowerCase()}House house">
      <div class = 'bannerHead'> 
      <h1>
         <i class="fa-solid fa-${names.sigil}"></i>
@@ -150,14 +151,14 @@ const renderHouses = () => {
 };
 
 const sortToAny = (studentFilter, house) => {
-  let domString = '';
-  
+  let domString = "";
+
   for (const character of studentFilter) {
     domString += `
     <div class="studentIdCard">
   <div class="row row-cols-auto">
-    <div class="col classIcon">${character.houseName.charAt(0)}</div>
     <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
+    <div class="col"><button type="button" id = "expel--${character.studentId}" class="btn expel btn-dark">Expel</button></div>
   </div>
 </div>
     `;
@@ -168,48 +169,100 @@ const sortToAny = (studentFilter, house) => {
 
 const idCard = () => {
   for (const house of houseNames) {
-    let studentFilter = students.filter(eachStudent => eachStudent.houseName === house.house);
+    let studentFilter = students.filter(
+      (eachStudent) => eachStudent.houseName === house.house
+    );
 
     sortToAny(studentFilter, house);
-  };
   }
+};
 
 const eventListeners = () => {
-  
-  document.querySelector("#filter").addEventListener("click", (e) => {
+  const btnSelector = document.querySelector("#filter.buttons");
+  console.log(btnSelector.textContent);
 
-    if (e.target.id === "clear") {
-      idCard(students);
-      console.log(students)
-    } else if (e.target.id === 'Gryffindor') {
-      const topic = students.filter((taco) => taco.houseName.toLowerCase() === e.target.id.innerHTML     
-      );
-      console.log(topic)
-      idCard(topic);
+  const sly = document.querySelector(".sHouse");
+  const huff = document.querySelector(".hHouse");
+  const death = document.querySelector(".dHouse");
+  const rave = document.querySelector(".rHouse");
+  const gryf = document.querySelector(".gHouse");
+
+  btnSelector.addEventListener("click", (e) => {
+    if (e.target.id === "allBtn") {
+      sly.style.display = "flex";
+      huff.style.display = "flex";
+      death.style.display = "flex";
+      rave.style.display = "flex";
+      gryf.style.display = "flex";
+    } else if (e.target.id === "gryffindorBtn") {
+      sly.style.display = "none";
+      huff.style.display = "none";
+      death.style.display = "none";
+      rave.style.display = "none";
+      gryf.style.display = "flex";
+    } else if (e.target.id === "ravenclawBtn") {
+      sly.style.display = "none";
+      huff.style.display = "none";
+      death.style.display = "none";
+      rave.style.display = "flex";
+      gryf.style.display = "none";
+    } else if (e.target.id === "hufflepuffBtn") {
+      sly.style.display = "none";
+      huff.style.display = "flex";
+      death.style.display = "none";
+      rave.style.display = "none";
+      gryf.style.display = "none";
+    } else if (e.target.id === "slytherinBtn") {
+      sly.style.display = "flex";
+      huff.style.display = "none";
+      death.style.display = "none";
+      rave.style.display = "none";
+      gryf.style.display = "none";
+    } else if (e.target.id === "armyBtn") {
+      sly.style.display = "none";
+      huff.style.display = "none";
+      death.style.display = "flex";
+      rave.style.display = "none";
+      gryf.style.display = "none";
     } else {
-      console.log('something went wrong');
+      console.log(`Button wasn't clicked`);
     }
   });
 
   const addOne = document.querySelector("#getSorted");
-  addOne.addEventListener('submit', (e) => {
+  addOne.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const studentInput = document.querySelector('#inputGroupSelect01').value;
+    const studentInput = document.querySelector("#inputGroupSelect01").value;
 
-    let sortingTo = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw'];
+    let sortingTo = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"];
     if (sortingTo.includes(studentInput)) {
-      sortingTo.push(studentInput)
+      sortingTo.push(studentInput);
     } else {
-      console.log('You appear to have no preference...')
+      console.log("You appear to have no preference...");
     }
+    // Grabbing the entire house ID... may change in the future
+    const mainHouseDiv = document.querySelector("#houses");
+    mainHouseDiv.addEventListener("click", (e) => {
+
+      if (e.target.id) {
+        const [method, studentId] = e.target.id.split("--");
+        const index = students.findIndex((taco) => taco.studentId === id);
+        console.log(index);
+
+        if (e.target.id.include('expel')){
+          console.log(`You're trying to expel ${index}`)
+        }
+
+      }
+    });
 
     const newStudent = {
       studentId: students.length + 1,
-      studentFirstName: document.querySelector('.firstName').value,
-      studentLastName: document.querySelector('.lastName').value,
+      studentFirstName: document.querySelector(".firstName").value,
+      studentLastName: document.querySelector(".lastName").value,
       houseName: sortingTo[Math.floor(Math.random() * sortingTo.length)],
-      rank: 'student',
+      rank: "student",
       enlisted: false,
       defeated: false,
     };
@@ -217,16 +270,35 @@ const eventListeners = () => {
 
     idCard(newStudent);
 
-    
     addOne.reset();
   });
 
+  // if (e.target.id) {
+  //       const [method, name] = e.target.id.split("--");
+  //       const index = pets.findIndex((taco) => taco.name === name);
+
+  //       if (e.target.id.includes("adopt")) {
+  //         let result = confirm("Are you ready to take on this responsibility?");
+  //         if (confirm !== true) {
+  //           pets.splice(index, 1);
+  //           petsOnDom(pets);
+  //         }
+  //       }
+  //       if (e.target.id.includes("more")) {
+  //         console.log(`you clicked on a ${index.color}`);
+  //       }
+  //       if (e.target.id.includes("remove")) {
+  //         console.log(`You're trying to delete ${index}`);
+  //         pets.splice(index, 1);
+  //         petsOnDom(pets);
+  //       }
+  //     }
 };
 const turnOn = () => {
   welcome();
   filterBtn();
   renderHouses();
-  idCard()
+  idCard();
   eventListeners();
 };
 
