@@ -168,9 +168,7 @@ const sortToAny = (studentFilter, house) => {
 
 const idCard = () => {
   for (const house of houseNames) {
-    console.log(house);
     let studentFilter = students.filter(eachStudent => eachStudent.houseName === house.house);
-    console.log(studentFilter);
 
     sortToAny(studentFilter, house);
   };
@@ -183,9 +181,10 @@ const eventListeners = () => {
     if (e.target.id === "clear") {
       idCard(students);
       console.log(students)
-    } else if (e.target.id) {
+    } else if (e.target.id === 'Gryffindor') {
       const topic = students.filter((taco) => taco.houseName.toLowerCase() === e.target.id.innerHTML     
       );
+      console.log(topic)
       idCard(topic);
     } else {
       console.log('something went wrong');
@@ -214,8 +213,6 @@ const eventListeners = () => {
       enlisted: false,
       defeated: false,
     };
-    console.log(newStudent)
-    console.log(students)
     students.push(newStudent);
 
     idCard(newStudent);

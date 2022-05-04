@@ -62,6 +62,7 @@ body{
   background: #FCDCD9;
   color: #92140C;
   border-color: #92140C;
+  flex-grow: 7;
 }
 .sHouse{
   background: #E0F5EA;
