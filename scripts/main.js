@@ -150,17 +150,28 @@ const renderHouses = () => {
   renderToDom("#hogWarts", domString);
 };
 
+//Creating a 
 const sortToAny = (studentFilter, house) => {
   let domString = "";
   for (const character of studentFilter) {
-    domString += `
+    if (character.enlisted === false) {
+      domString += `
     <div class="studentIdCard">
   <div class="row row-cols-auto">
     <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
-    <div class="col"><button type="button" id="expel--${character.studentId}" class="btn expel btn-outline-dark">X</button></div>
+    <div class="col" id='e-${character.houseName}'><button type="button" id="expel--${character.studentId}" class="btn expel btn-outline-dark">x</button></div>
+  </div>
+</div>
+    `;} else {
+      domString += `
+    <div class="studentIdCard">
+  <div class="row row-cols-auto">
+    <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
   </div>
 </div>
     `;
+    }
+
   }
   
   renderToDom(`#house${house.house}`, domString);
@@ -223,8 +234,6 @@ const eventListeners = () => {
       death.style.display = "flex";
       rave.style.display = "none";
       gryf.style.display = "none";
-    } else {
-      console.log(`Button wasn't clicked`);
     }
   });
 
@@ -256,42 +265,31 @@ const eventListeners = () => {
     idCard(newStudent);
 
     addOne.reset();
+
+    
   });
 
   const changeHouse = document.querySelector("#hogWarts");
+
     changeHouse.addEventListener("click", (e) => {
       
       if (e.target.id) {
-        const [method, studentId,] = e.target.id.split("--");
-        const index = students.findIndex((taco) => taco.studentId === studentId);
-        console.log()
+        const [method, studentId] = e.target.id.split("--");
+
+        let index = students.findIndex((taco) => taco.studentId === parseInt(studentId));
+
         if (e.target.id.includes('expel')) {
-          console.log(students);
+
+         const newHouse = students[index].houseName = 'DeathEaters';
+          students.push(students[index]);
+          
         }
-        
+        students.splice(index, 1);
+
+        idCard(students);
       }
     });
 
-  // if (e.target.id) {
-  //       const [method, name] = e.target.id.split("--");
-  //       const index = pets.findIndex((taco) => taco.name === name);
-
-  //       if (e.target.id.includes("adopt")) {
-  //         let result = confirm("Are you ready to take on this responsibility?");
-  //         if (confirm !== true) {
-  //           pets.splice(index, 1);
-  //           petsOnDom(pets);
-  //         }
-  //       }
-  //       if (e.target.id.includes("more")) {
-  //         console.log(`you clicked on a ${index.color}`);
-  //       }
-  //       if (e.target.id.includes("remove")) {
-  //         console.log(`You're trying to delete ${index}`);
-  //         pets.splice(index, 1);
-  //         petsOnDom(pets);
-  //       }
-  //     }
 };
 const turnOn = () => {
   welcome();
