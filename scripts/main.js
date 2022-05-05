@@ -167,7 +167,6 @@ const sortToAny = (studentFilter, house) => {
     <div class="studentIdCard">
   <div class="row row-cols-auto">
     <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
-     
   </div>
 </div>
     `;
@@ -235,8 +234,6 @@ const eventListeners = () => {
       death.style.display = "flex";
       rave.style.display = "none";
       gryf.style.display = "none";
-    } else {
-      console.log(`Button wasn't clicked`);
     }
   });
 
@@ -268,23 +265,28 @@ const eventListeners = () => {
     idCard(newStudent);
 
     addOne.reset();
+
+    
   });
 
   const changeHouse = document.querySelector("#hogWarts");
+
     changeHouse.addEventListener("click", (e) => {
       
       if (e.target.id) {
         const [method, studentId] = e.target.id.split("--");
-        const index = students.findIndex((taco) => taco.studentId === parseInt(studentId));
+
+        let index = students.findIndex((taco) => taco.studentId === parseInt(studentId));
 
         if (e.target.id.includes('expel')) {
-          console.log(e.target.id);
-          console.log(students.splice(...studentId, 1));
-          students.splice(...studentId, 1);
-          idCard(students);
-          console.log(students);
+
+         const newHouse = students[index].houseName = 'DeathEaters';
+          students.push(students[index]);
+          
         }
-        
+        students.splice(index, 1);
+
+        idCard(students);
       }
     });
 
