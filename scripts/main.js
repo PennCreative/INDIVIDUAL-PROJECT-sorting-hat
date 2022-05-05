@@ -147,23 +147,22 @@ const renderHouses = () => {
     </div>
     `;
   }
-  renderToDom("#houses", domString);
+  renderToDom("#hogWarts", domString);
 };
 
 const sortToAny = (studentFilter, house) => {
   let domString = "";
-
   for (const character of studentFilter) {
     domString += `
     <div class="studentIdCard">
   <div class="row row-cols-auto">
     <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
-    <div class="col"><button type="button" id = "expel--${character.studentId}" class="btn expel btn-dark">Expel</button></div>
+    <div class="col"><button type="button" id="expel--${character.studentId}" class="btn expel btn-outline-dark">X</button></div>
   </div>
 </div>
     `;
   }
-
+  
   renderToDom(`#house${house.house}`, domString);
 };
 
@@ -189,11 +188,11 @@ const eventListeners = () => {
 
   btnSelector.addEventListener("click", (e) => {
     if (e.target.id === "allBtn") {
-      sly.style.display = "flex";
-      huff.style.display = "flex";
-      death.style.display = "flex";
-      rave.style.display = "flex";
-      gryf.style.display = "flex";
+      sly.style.display = "";
+      huff.style.display = "";
+      death.style.display = "";
+      rave.style.display = "";
+      gryf.style.display = "";
     } else if (e.target.id === "gryffindorBtn") {
       sly.style.display = "none";
       huff.style.display = "none";
@@ -242,21 +241,7 @@ const eventListeners = () => {
       console.log("You appear to have no preference...");
     }
     // Grabbing the entire house ID... may change in the future
-    const mainHouseDiv = document.querySelector("#houses");
-    mainHouseDiv.addEventListener("click", (e) => {
-
-      if (e.target.id) {
-        const [method, studentId] = e.target.id.split("--");
-        const index = students.findIndex((taco) => taco.studentId === id);
-        console.log(index);
-
-        if (e.target.id.include('expel')){
-          console.log(`You're trying to expel ${index}`)
-        }
-
-      }
-    });
-
+    
     const newStudent = {
       studentId: students.length + 1,
       studentFirstName: document.querySelector(".firstName").value,
@@ -272,6 +257,20 @@ const eventListeners = () => {
 
     addOne.reset();
   });
+
+  const changeHouse = document.querySelector("#hogWarts");
+    changeHouse.addEventListener("click", (e) => {
+      
+      if (e.target.id) {
+        const [method, studentId,] = e.target.id.split("--");
+        const index = students.findIndex((taco) => taco.studentId === studentId);
+        console.log()
+        if (e.target.id.includes('expel')) {
+          console.log(students);
+        }
+        
+      }
+    });
 
   // if (e.target.id) {
   //       const [method, name] = e.target.id.split("--");
