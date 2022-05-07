@@ -46,8 +46,89 @@ let students = [
   },
   {
     studentId: 6,
-    studentFirstName: "Tom",
-    studentLastName: "Riddle",
+    studentFirstName: "Lucius",
+    studentLastName: "Malfoy",
+    houseName: "DeathEaters",
+    rank: "leader",
+    enlisted: true,
+    defeated: false,
+  },
+  {
+    studentId: 7,
+    studentFirstName: "Hermoine",
+    studentLastName: "Granger",
+    houseName: "Gryffindor",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 8,
+    studentFirstName: "Ron",
+    studentLastName: "Weasley",
+    houseName: "Gryffindor",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 9,
+    studentFirstName: "Vincent",
+    studentLastName: "Crabbe",
+    houseName: "Slytherin",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 10,
+    studentFirstName: "Gregory",
+    studentLastName: "Goyle",
+    houseName: "Slytherin",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 11,
+    studentFirstName: "Cedric",
+    studentLastName: "Diggory",
+    houseName: "Hufflepuff",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 12,
+    studentFirstName: "Ernie",
+    studentLastName: "Macmillan",
+    houseName: "Hufflepuff",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 13,
+    studentFirstName: "Padma",
+    studentLastName: "Patil",
+    houseName: "Ravenclaw",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 14,
+    studentFirstName: "Cho",
+    studentLastName: "Chang",
+    houseName: "Ravenclaw",
+    rank: "student",
+    enlisted: false,
+    defeated: false,
+  },
+  {
+    studentId: 15,
+    studentFirstName: "Bellatrix",
+    studentLastName: "Lestrange",
     houseName: "DeathEaters",
     rank: "leader",
     enlisted: true,
@@ -92,12 +173,17 @@ const welcome = () => {
   let domString = `<h3>WELCOME</h3>
   <h4>to the amazing world of</h4>
   <h1>HOGWORX!</h1>
+
 <form id="getSorted">
+
 <div class="input-group">
+
 <span class="input-group-text">First Name</span>
 <input type="text" aria-label="First name" class="firstName form-control" required>
+
 <span class="input-group-text">Last Name</span>
 <input type="text" aria-label="Last name" class="lastName form-control" required>
+
 <select class="form-select" id="inputGroupSelect01" required>
     <option selected>Your choice will be considered</option>
     <option value="Gryffindor">Gryffindor</option>
@@ -105,8 +191,11 @@ const welcome = () => {
     <option value="Hufflepuff">Hufflepuff</option>
     <option value="Ravenclaw">Ravenclaw</option>
   </select>
+
 <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-hat-wizard"></i></button>
+
 </div>
+
 </form>
   `;
   renderToDom("#welcomeMsg", domString);
@@ -150,30 +239,30 @@ const renderHouses = () => {
   renderToDom("#hogWarts", domString);
 };
 
-//Creating a 
 const sortToAny = (studentFilter, house) => {
   let domString = "";
   for (const character of studentFilter) {
-    if (character.enlisted === false) {
+    if (character.houseName !== "DeathEaters") {
       domString += `
     <div class="studentIdCard">
   <div class="row row-cols-auto">
-    <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
-    <div class="col" id='e-${character.houseName}'><button type="button" id="expel--${character.studentId}" class="btn expel btn-outline-dark">x</button></div>
+    <div class="col nameCol">${character.studentFirstName} ${character.studentLastName}</div>
+    <div class="col" id='e-${character.houseName}'><button type="button" id="expel--${character.studentId}" class="btn expel btn-outline-dark">X</button></div>
   </div>
 </div>
-    `;} else {
+    `;
+    } else {
       domString += `
     <div class="studentIdCard">
   <div class="row row-cols-auto">
     <div class="col">${character.studentFirstName} ${character.studentLastName}</div>
+    <div class="col" id='a-${character.houseName}'><button type="button" id="avada--${character.studentId}" class="btn expel btn-outline-dark">A</button></div>
   </div>
 </div>
     `;
     }
-
   }
-  
+
   renderToDom(`#house${house.house}`, domString);
 };
 
@@ -189,7 +278,6 @@ const idCard = () => {
 
 const eventListeners = () => {
   const btnSelector = document.querySelector("#filter.buttons");
-  console.log(btnSelector.textContent);
 
   const sly = document.querySelector(".sHouse");
   const huff = document.querySelector(".hHouse");
@@ -241,16 +329,21 @@ const eventListeners = () => {
   addOne.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    // setTimeout(() => {
+    //   //removes element from DOM
+    //   addOne.style.visibility = "hidden";
+    //   //hides element (still takes up space on page)
+
+    // }, 0); //time in milliseconds
+
     const studentInput = document.querySelector("#inputGroupSelect01").value;
 
     let sortingTo = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"];
     if (sortingTo.includes(studentInput)) {
       sortingTo.push(studentInput);
-    } else {
-      console.log("You appear to have no preference...");
     }
     // Grabbing the entire house ID... may change in the future
-    
+
     const newStudent = {
       studentId: students.length + 1,
       studentFirstName: document.querySelector(".firstName").value,
@@ -260,36 +353,70 @@ const eventListeners = () => {
       enlisted: false,
       defeated: false,
     };
+    if (studentInput === newStudent.houseName) {
+      alert(
+        `Hmmmmm.... YES... a ${
+          newStudent.studentLastName
+        } Agreed.... ${studentInput.toUpperCase()} is a great fit for you!`
+      );
+    } else if (sortingTo.includes(studentInput)) {
+      alert(
+        `I see... But you are a ${
+          newStudent.studentLastName
+        }... You will go into ${newStudent.houseName.toUpperCase()} even though your choice was ${studentInput}`
+      );
+    } else {
+      alert(
+        `OF COURSE! You're a ${
+          newStudent.studentLastName
+        }... Too shy to let us know what you really think!? Well then.... ${newStudent.houseName.toUpperCase()}!`
+      );
+    }
     students.push(newStudent);
 
     idCard(newStudent);
 
     addOne.reset();
-
-    
+    addOne.visibility = "";
   });
+  // Sorting Hat Script
+  const script = ["", ""];
 
   const changeHouse = document.querySelector("#hogWarts");
 
-    changeHouse.addEventListener("click", (e) => {
-      
-      if (e.target.id) {
-        const [method, studentId] = e.target.id.split("--");
+  changeHouse.addEventListener("click", (e) => {
+    if (e.target.id.includes("expel")) {
+      const [method, studentId] = e.target.id.split("--");
 
-        let index = students.findIndex((taco) => taco.studentId === parseInt(studentId));
+      let index = students.findIndex(
+        (taco) => taco.studentId === parseInt(studentId)
+      );
+      //Change the value of the house
+      students[index].houseName = "DeathEaters";
+      //Push the student with his new value changed
+      students.push(students[index]);
+      //Splice the old version of the student
+      students.splice(index, 1);
+    }
+    if (e.target.id.includes("avada")) {
+      const [method, studentId] = e.target.id.split("--");
 
-        if (e.target.id.includes('expel')) {
-
-         const newHouse = students[index].houseName = 'DeathEaters';
-          students.push(students[index]);
-          
-        }
+      let index = students.findIndex(
+        (taco) => taco.studentId === parseInt(studentId)
+      );
+      //Splice the old version of the student
+      const ak = confirm(`You're about to cast a killing curse!`);
+      if (ak == true) {
+        alert(`AVADA KEDAVRAAA!!!`);
         students.splice(index, 1);
-
-        idCard(students);
+      } else {
+        return false;
       }
-    });
+    }
 
+    //Rerender the students through the if/else above
+    idCard(students);
+  });
 };
 const turnOn = () => {
   welcome();

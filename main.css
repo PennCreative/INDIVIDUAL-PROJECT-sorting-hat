@@ -11,6 +11,7 @@ root{
 body{
   display: flex;
   flex-flow: column nowrap;
+  background: aliceblue;
 }
 .welcome{
   padding: 1em;
@@ -58,6 +59,8 @@ body{
  flex-flow: column nowrap;
  text-align: center;
  border: 5px double black;
+ border-radius: .5rem;
+ overflow: scroll
 }
 .gHouse{
   background: #FCDCD9;
@@ -96,19 +99,35 @@ body{
 .title{
   font-size: 90%;
 }
+h1{
+  margin-top: 1rem;
+}
+
 .bannerBody{
   height: 100%;
   width: 100%;
   padding-top: .5rem;
   overflow: scroll;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
 }
 .studentIdCard{
 width: 100%;
 display: flex;
-justify-content: center;
+justify-content: space-evenly;
 }
 .classIcon{
   color: darkslategray;
+}
+.col{
+  margin: .5rem;
+  padding: 0;
+}
+.nameCol{
+  margin-right: 0;
+}
+.expel{
+  height: 1.5rem;
+  line-height: .5rem;
+  margin-left: 0;
 }
